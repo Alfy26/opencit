@@ -34,7 +34,7 @@ public class BuildQuoteXMLCmd implements ICommand {
     public BuildQuoteXMLCmd(TADataContext context) {
         this.context = context;
     }
-
+	
     @Override
     public void execute() {
         try {
@@ -73,12 +73,12 @@ public class BuildQuoteXMLCmd implements ICommand {
     }
     
         public ArrayList<Objects> readValuesFromIma () {
-    	String[] ima_parts = new String[5];
-    	String[] parts = new String[2];
-    	ArrayList<Objects> list = new ArrayList<>();
+    		String[] ima_parts = new String[5];
+    		String[] parts = new String[2];
+    		ArrayList<Objects> list = new ArrayList<>();
 		String s;
 		try {
-            //Opening IMA runtime measurement list
+            		//Opening IMA runtime measurement list
 			FileReader ima = new FileReader("/sys/kernel/security/ima/ascii_runtime_measurements");
 			BufferedReader row = new BufferedReader(ima);
 			while (true) {
@@ -87,13 +87,12 @@ public class BuildQuoteXMLCmd implements ICommand {
 					break;
 				if (!s.startsWith(defaultPCRnumber))
 					continue;
-
 				ima_parts=s.split(" ");
 				Objects value = new Objects();
 				value.setHash(ima_parts[template_hash]);
 				value.setPcrindex(defaultPCRnumber);
 				value.setEventtype(defaultEventType);
-                //Managing both types of IMA templates (ima and ima-ng)
+                		//Managing both types of IMA templates (ima and ima-ng)
 				if (ima_parts[3].startsWith("sha1") || ima_parts[3].startsWith("sha256")) {
 					String filedata_hash[] = new String[2];
 					filedata_hash = ima_parts[3].split(":");
@@ -105,16 +104,13 @@ public class BuildQuoteXMLCmd implements ICommand {
 				}
 				byte[] data_name = ima_parts[filename_hint].getBytes("UTF-8");
 				value.setEventdata(Base64.encodeBase64String(data_name));
-
 				list.add(value);
 			}
-		
 			row.close();
 			ima.close();
 			return list;
-			
 		} catch (IOException e) {
-            //If IMA is not available the list will contain only the item shown below
+            		//If IMA is not available the list will contain only the item shown below
 			Objects value = new Objects();
 			value.setPcrindex(defaultPCRnumber);
 			value.setHash("not available");
@@ -124,5 +120,5 @@ public class BuildQuoteXMLCmd implements ICommand {
 			list.add(value);
     	return list;
 		}	
-    }
+   	 }
 }
