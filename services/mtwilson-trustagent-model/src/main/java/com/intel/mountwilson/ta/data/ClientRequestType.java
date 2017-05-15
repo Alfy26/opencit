@@ -8,6 +8,8 @@
 
 package com.intel.mountwilson.ta.data;
 
+import java.util.ArrayList;
+import com.intel.mtwilson.trustagent.model.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -47,7 +49,8 @@ import javax.xml.bind.annotation.XmlType;
     "aikcert",
     "quote",
     "eventLog",
-    "tcbMeasurement"
+    "tcbMeasurement",
+    "SimpleSnapshotObject"
 })
 public class ClientRequestType {
 
@@ -67,6 +70,8 @@ public class ClientRequestType {
     protected String eventLog; // This will have the list of modules from the event log, which we will parse later.
     @XmlElement(required = true)
     protected String tcbMeasurement; // This will have the list of additional modules including applications/data installed on top of OS.
+    @XmlElement(required = true)
+    protected ArrayList<Objects> SimpleSnapshotObject; //This will have the list of IMA measurements.
     /**
      * Gets the value of the timestamp property.
      * 
@@ -218,6 +223,15 @@ public class ClientRequestType {
 
     public void setTcbMeasurement(String tcbMeasurement) {
         this.tcbMeasurement = tcbMeasurement;
+    }
+    
+    public ArrayList<Objects> getIMAList() {
+        return SimpleSnapshotObject;
+    }
+    
+    public void setIMAList(ArrayList<Objects> SimpleSnapshotObject) {
+        this.SimpleSnapshotObject.clear();
+        this.SimpleSnapshotObject.addAll(SimpleSnapshotObject);
     }
 
     
