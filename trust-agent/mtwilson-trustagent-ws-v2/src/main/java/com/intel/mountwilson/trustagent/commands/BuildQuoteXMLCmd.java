@@ -6,7 +6,12 @@ import com.intel.mountwilson.common.ICommand;
 import com.intel.mountwilson.common.TAException;
 import com.intel.mountwilson.trustagent.data.TADataContext;
 import com.intel.mountwilson.common.ErrorCode;
+import com.intel.mtwilson.trustagent.model.Objects;
 import com.intel.mtwilson.trustagent.model.TpmQuoteResponse;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -20,6 +25,11 @@ import org.slf4j.LoggerFactory;
 public class BuildQuoteXMLCmd implements ICommand {
     Logger log = LoggerFactory.getLogger(getClass().getName());
     private TADataContext context = null;
+    private static String defaultPCRnumber = "10";
+    private static String defaultEventType = "0";
+    private static int template_hash = 1;
+    private static int filedata_hash = 3;
+    private static int filename_hint = 4;
 
     public BuildQuoteXMLCmd(TADataContext context) {
         this.context = context;
