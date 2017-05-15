@@ -6,10 +6,13 @@ package com.intel.mtwilson.trustagent.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.intel.mtwilson.jackson.X509CertificateDeserializer;
 import java.security.cert.X509Certificate;
 import com.intel.mtwilson.jackson.X509CertificateSerializer;
+import java.util.ArrayList;
 
 /**
  *
@@ -28,7 +31,9 @@ public class TpmQuoteResponse {
     public String eventLog; // base64-encoded xml ....
     public String tcbMeasurement;
     public String selectedPcrBanks;
-    
+    @JacksonXmlElementWrapper(localName="SimpleSnapshotObject")
+    @JacksonXmlProperty(localName = "Objects")
+    public ArrayList<Objects> SimpleSnapshotObject;
     // added for assetTag attestation based on sha1(nonce | assetTag
     public boolean isTagProvisioned;
     public byte[] assetTag;
@@ -46,4 +51,7 @@ public class TpmQuoteResponse {
                 + "</client_request>";
      * 
      */
+    public TpmQuoteResponse () {
+	    	SimpleSnapshotObject = new ArrayList<>();
+	}
 }
